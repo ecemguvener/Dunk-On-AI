@@ -149,7 +149,7 @@ All roster endpoints are scoped to a user via `<user_id>` (the `id` from the use
 { "players": [{ "player_id": 1, "role": "starter" }, { "player_id": 2 }] }
 ```
 
-**Roster constraints:** max 15 players total, max 5 starters.
+**Roster constraints:** max 5 players total, one per position (PG, SG, SF, PF, C).
 
 ---
 
@@ -187,6 +187,13 @@ Basketball-Fantasy-Helper/
 2. Register it in `Backend/__init__.py` inside `create_app`
 3. Get the Supabase client at the top of each endpoint with `client = get_supabase_client()`
 4. Use `client.table("your_table").select/insert/update/delete(...)` for all DB access
+
+## Frontend Roster Rules
+
+- Roster is capped at **5 players**, one per position.
+- Selecting a player whose position is already on the roster (saved or pending) is blocked with an error message.
+- Players with a taken position appear dimmed in the player list.
+- The detail page add button shows `[POS] Taken` and is disabled when the position is already filled.
 
 ## Backend Status
 

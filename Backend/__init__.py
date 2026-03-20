@@ -33,9 +33,13 @@ def create_app(config_class=Config):
     from Backend.routes import bp as api_bp
     from Backend.roster_routes import bp as roster_bp
     from Backend.auth_routes import bp as auth_bp
+    from Backend.matchup_routes import bp as matchup_bp
+    from Backend.match_history_routes import bp as match_history_bp
 
     app.register_blueprint(api_bp)
     app.register_blueprint(roster_bp)
     app.register_blueprint(auth_bp)
+    app.register_blueprint(matchup_bp)
+    app.register_blueprint(match_history_bp)
 
     return app

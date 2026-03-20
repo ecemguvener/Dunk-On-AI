@@ -131,7 +131,7 @@ def get_players():
         players_df["PLAYER_NAME"] = players_df["PLAYER_NAME"].str.replace(",", "", regex=False)
 
         total_players = len(players_df)
-        """
+
         # Add POSITION column
         positions = []
 
@@ -145,7 +145,19 @@ def get_players():
                 time.sleep(api_delay)
 
                 info_df = info.get_data_frames()[0]
-                position = info_df.loc[0, "POSITION"]
+                raw_position = str(info_df.loc[0, "POSITION"]).strip()
+
+                # Bucket into Guard / Forward / Center
+                first = raw_position.split("-")[0].strip()
+                if first in ("Guard", "G"):
+                    position = "Guard"
+                elif first in ("Forward", "F"):
+                    position = "Forward"
+                elif first in ("Center", "C"):
+                    position = "Center"
+                else:
+                    position = "UNKNOWN"
+                    warning_count += 1
 
                 positions.append(position)
 
@@ -156,8 +168,6 @@ def get_players():
                 warning_count += 1
 
         players_df["POSITION"] = positions
-        """
-        players_df["POSITION"] = "UNKNOWN"
 
         # Ensure data/raw directory exists
         data_folder = os.path.join("data", "raw")
