@@ -542,35 +542,35 @@ const HomePage = ({ authUser, onLogout, onSettings, onNavigate }) => {
       {/* Game Detail Modal */}
       {selectedGame && (
         <div
-          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', zIndex: 1000, display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}
+          className="game-modal-overlay"
           onClick={() => setSelectedGame(null)}
         >
           <motion.div
+            className="game-modal-sheet"
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
             onClick={e => e.stopPropagation()}
-            style={{ background: 'var(--card-bg, #1a1a2e)', borderRadius: '20px 20px 0 0', width: '100%', maxWidth: 480, maxHeight: '80vh', overflowY: 'auto', padding: '24px 20px 32px' }}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-              <h3 style={{ margin: 0, fontSize: '1.1rem' }}>
+            <div className="game-modal-header">
+              <h3 className="game-modal-date">
                 {new Date(selectedGame.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
               </h3>
-              <span style={{ fontSize: '0.9rem', fontWeight: 700, color: selectedGame.winner === 'you' ? '#4ade80' : '#f87171' }}>
+              <span className={`game-modal-result ${selectedGame.winner === 'you' ? 'win' : 'loss'}`}>
                 {selectedGame.winner === 'you' ? 'YOU WON' : 'AI WON'} &nbsp; {selectedGame.yourScore} – {selectedGame.aiScore}
               </span>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+            <div className="game-modal-columns">
               {/* Your Team */}
-              <div>
-                <div style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--accent, #6366f1)', letterSpacing: 1, marginBottom: 8 }}>YOUR TEAM</div>
+              <div className="game-modal-column">
+                <div className="game-modal-team-title your">YOUR TEAM</div>
                 {(selectedGame.yourPlayers || []).map((p, i) => (
-                  <div key={i} style={{ background: 'rgba(255,255,255,0.05)', borderRadius: 10, padding: '8px 10px', marginBottom: 6 }}>
-                    <div style={{ fontWeight: 600, fontSize: '0.85rem', marginBottom: 2 }}>{p.name}</div>
-                    <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary, #9ca3af)', marginBottom: 4 }}>{p.position}</div>
-                    <div style={{ display: 'flex', gap: 8, fontSize: '0.72rem', color: 'var(--text-secondary, #9ca3af)' }}>
+                  <div key={i} className="game-modal-player-card">
+                    <div className="game-modal-player-name">{p.name}</div>
+                    <div className="game-modal-player-position">{p.position}</div>
+                    <div className="game-modal-player-stats">
                       <span>{p.pts?.toFixed ? p.pts.toFixed(1) : p.pts ?? '—'} PTS</span>
                       <span>{p.reb?.toFixed ? p.reb.toFixed(1) : p.reb ?? '—'} REB</span>
                       <span>{p.ast?.toFixed ? p.ast.toFixed(1) : p.ast ?? '—'} AST</span>
@@ -580,13 +580,13 @@ const HomePage = ({ authUser, onLogout, onSettings, onNavigate }) => {
               </div>
 
               {/* AI Team */}
-              <div>
-                <div style={{ fontSize: '0.7rem', fontWeight: 700, color: '#f87171', letterSpacing: 1, marginBottom: 8 }}>AI TITANS</div>
+              <div className="game-modal-column">
+                <div className="game-modal-team-title ai">AI TITANS</div>
                 {(selectedGame.aiPlayers || []).map((p, i) => (
-                  <div key={i} style={{ background: 'rgba(255,255,255,0.05)', borderRadius: 10, padding: '8px 10px', marginBottom: 6 }}>
-                    <div style={{ fontWeight: 600, fontSize: '0.85rem', marginBottom: 2 }}>{p.name}</div>
-                    <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary, #9ca3af)', marginBottom: 4 }}>{p.position}</div>
-                    <div style={{ display: 'flex', gap: 8, fontSize: '0.72rem', color: 'var(--text-secondary, #9ca3af)' }}>
+                  <div key={i} className="game-modal-player-card">
+                    <div className="game-modal-player-name">{p.name}</div>
+                    <div className="game-modal-player-position">{p.position}</div>
+                    <div className="game-modal-player-stats">
                       <span>{p.pts?.toFixed ? p.pts.toFixed(1) : p.pts ?? '—'} PTS</span>
                       <span>{p.reb?.toFixed ? p.reb.toFixed(1) : p.reb ?? '—'} REB</span>
                       <span>{p.ast?.toFixed ? p.ast.toFixed(1) : p.ast ?? '—'} AST</span>
@@ -597,8 +597,8 @@ const HomePage = ({ authUser, onLogout, onSettings, onNavigate }) => {
             </div>
 
             <button
+              className="game-modal-close"
               onClick={() => setSelectedGame(null)}
-              style={{ marginTop: 20, width: '100%', padding: '12px', background: 'rgba(255,255,255,0.08)', border: 'none', borderRadius: 12, color: 'inherit', fontSize: '0.9rem', cursor: 'pointer' }}
             >
               Close
             </button>
